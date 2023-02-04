@@ -4,7 +4,9 @@
   "description": "A gift card vendor application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts ",
+    "migrate:dev:up": "npx knex migrate:latest --knexfile ./src/config/knexfile.ts",
+    "migrate:dev:down": "npx knex migrate:down  --knexfile ./src/config/knexfile.ts --env development "
   },
   "repository": {
     "type": "git",
@@ -23,9 +25,15 @@
   "homepage": "https://github.com/3rdive/gift-card-vendor#readme",
   "devDependencies": {
     "@types/express": "^4.17.1",
+    "@types/uuid": "^9.0.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^16.0.3",
+    "express": "^4.17.1",
+    "knex": "^2.4.2",
+    "objection": "^3.0.1",
+    "pg": "^8.9.0",
+    "uuid": "^9.0.0"
   }
 }
