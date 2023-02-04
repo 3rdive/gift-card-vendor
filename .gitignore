@@ -1,4 +1,7 @@
 #Complied Output
 /dist
 /node_modules
+
+
+# env variables
 .env
