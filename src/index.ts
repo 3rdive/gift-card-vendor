@@ -1,8 +1,17 @@
 import express from 'express';
-const app = express();
+import dbSetup from './Config/db/db-setup';
 import * as dotenv from 'dotenv';
 dotenv.config();
-const port = process.env.PORT
+
+
+const app = express();
+app.use(express.json())
+
+dbSetup()
+
+
+const port = process.env.PORT;
+
 
 app.get('/', (req, res) => {
   res.send('Hello Gift Card!');

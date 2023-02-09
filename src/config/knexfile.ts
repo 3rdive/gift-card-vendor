@@ -1,71 +1,53 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import { knexSnakeCaseMappers } from 'objection';
 
-import * as dotenv from 'dotenv';
-dotenv.config();
 // Update with your config settings.
-import {knexSnakeCaseMappers} from 'objection';
-import path from'path';
+dotenv.config({ path: './../../.env' })
 
-
-const { DB_USERNAME, DB_PASSWORD, DB_POSTGRES } = process.env;
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
-const config: { [key: string]: import("knex").Knex.Config; } = {
-
+const databaseConfig: { [key: string]: import("knex").Knex.Config } = {
   development: {
     client: 'postgresql',
     connection: {
-      database: DB_POSTGRES,
-      user: DB_USERNAME,
-      password: DB_PASSWORD
+      host: `${process.env.DB_HOST}`,
+      user: `${process.env.DB_USERNAME}`,
+      password: `${process.env.DB_PASSWORD}`,
+      database: `${process.env.DB_POSTGRES}`,
     },
     pool: {
       min: 2,
       max: 10,
-    }, 
+    },
     migrations: {
       tableName: 'knex_migrations',
-      directory: path.join(__dirname, '../migrations')
-    },
-    ...knexSnakeCaseMappers,
-    seeds: {
-      directory: './seeds',
-    }
+      directory: path.join(__dirname, './migrations')
   },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: DB_POSTGRES,
-      user: DB_USERNAME,
-      password: DB_PASSWORD
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
+  seeds: {
+    directory: __dirname +  './seeds'
   },
-
+...knexSnakeCaseMappers,
+  },
   production: {
     client: 'postgresql',
     connection: {
-      database: DB_POSTGRES,
-      user: DB_USERNAME,
-      password: DB_PASSWORD
+      host: `${process.env.DB_HOST}`,
+      user: `${process.env.DB_USERNAME}`,
+      password: `${process.env.DB_PASSWORD}`,
+      database: `${process.env.DB_POSTGRES}`,
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
-
+      tableName: 'knex_migrations',
+      directory: path.join(__dirname, './../../migrations')
+  },
+  seeds: {
+    directory: __dirname +  './seeds'
+  },
+...knexSnakeCaseMappers,
+  },
 };
 
-
-export default config;
+export default databaseConfig
