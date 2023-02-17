@@ -1,5 +1,6 @@
 import express from 'express';
 import dbSetup from './Config/db/db-setup';
+import routerRoots from "./Routes"
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,6 +12,9 @@ dbSetup()
 
 
 const port = process.env.PORT;
+
+// Routes
+app.use('/api/v1', routerRoots);
 
 
 app.get('/', (req, res) => {
