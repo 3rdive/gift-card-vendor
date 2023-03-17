@@ -3,7 +3,8 @@ import path from 'path';
 import { knexSnakeCaseMappers } from 'objection';
 
 // Update with your config settings.
-dotenv.config({ path: './../../.env' })
+dotenv.config({ path: '.env' })
+
 
 const databaseConfig: { [key: string]: import("knex").Knex.Config } = {
   development: {
@@ -23,7 +24,7 @@ const databaseConfig: { [key: string]: import("knex").Knex.Config } = {
       directory: path.join(__dirname, './migrations')
   },
   seeds: {
-    directory: __dirname +  './seeds'
+    directory: path.join(__dirname, './seeds')
   },
 ...knexSnakeCaseMappers,
   },
@@ -49,5 +50,6 @@ const databaseConfig: { [key: string]: import("knex").Knex.Config } = {
 ...knexSnakeCaseMappers,
   },
 };
+
 
 export default databaseConfig

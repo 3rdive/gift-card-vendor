@@ -1,5 +1,7 @@
 import express from 'express';
 import dbSetup from './Config/db/db-setup';
+// import router from './Routes';
+import authRouter from './Routes/index';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,8 +14,11 @@ dbSetup()
 
 const port = process.env.PORT;
 
+//Routes
 
-app.get('/', (req, res) => {
+app.use('/', authRouter)
+
+app.get('/api/v1', (req, res) => {
   res.send('Hello Gift Card!');
 });
 

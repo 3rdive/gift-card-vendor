@@ -6,6 +6,8 @@ export default class User extends Model {
     user_name!: string;
     email!: string;
     password! : string;
-    phone_number!: string;
+    phone_number!: number;
     country!: string;
+    createdAt!: Date;
+    updatedAt!: Date;
   }
