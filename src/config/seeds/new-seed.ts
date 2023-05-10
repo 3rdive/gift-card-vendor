@@ -14,7 +14,9 @@ export async function seed(knex: Knex): Promise<void> {
             email: 'test1@gmail.com',
             password: 'test123',
             phone_number: '0815597654',
-            country: 'Rwanda'
+            country: 'Rwanda',
+            verificationToken: 'faker',
+            isVerified : false,
           },
           {
             id: 2,
@@ -22,7 +24,9 @@ export async function seed(knex: Knex): Promise<void> {
             email: 'test2@gmail.com',
             password: 'test23',
             phone_number: '0815597665',
-            country: 'Cuba'
+            country: 'Cuba',
+            verificationToken: 'faker',
+            isVerified : true,
           },
     ]);
 

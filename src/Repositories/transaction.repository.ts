@@ -1,13 +1,14 @@
-import Transaction from '../Models/transactionCode.model';
-import generateTransactionCode from '../Utils/Middleware/generateTransaction';
+import TransactionRef from "../Models/transactionRef";
 
-export default class TransactionRepository {
-  public async create(userId: number): Promise<Transaction> {
-    const transaction = await Transaction.query().insert({
-      code: generateTransactionCode,
-      user_id: userId,
-    });
-    return transaction;
-  }
 
+export  class TransactionCodeRepository {
+     async create(code: ITransaction): Promise<TransactionRef> {
+        return  TransactionRef.query().insert(code);
+      }
+     async findByUserId(userId: number): Promise<TransactionRef | undefined> {
+        return TransactionRef.query().where("user_id", userId).first();
+}
+     async findByCode(code: number): Promise<TransactionRef | undefined> {
+        return TransactionRef.query().findOne({code });
+}
 }
