@@ -3,15 +3,12 @@ import AuthService from "../Services/auth.service";
 import { NextFunction, Request, Response } from "express";
 import {StatusCodes} from "http-status-codes";
 import logger from '../Utils/logger';
-import { RegisterI } from "../type";
-import { AuthenticatedUser } from "../Interfaces/req.user";
+import { RegisterInterface } from "../type";
 import { BadRequestError, UnAuthenticatedError } from "../Utils/ErrorUtils";
-import sendEmailEthereal from "../Utils/Utilities/sendEmail";
-import { ILoginRequest } from "../Interfaces/user.type";
 import log from "../Utils/logger";
-import { error } from "console";
 import { attachCookiesToResponse } from "../Utils/Middleware/jwt.file";
-import { LogoutPAyload } from "../Interfaces/jwt.dao";
+const ACCESS_TOKEN = 'accessToken';
+const LOGOUT = 'logout';
 
 
 export default class AuthController {
@@ -20,7 +17,7 @@ export default class AuthController {
     this.authService = new AuthService(); // initialize authService
   }
     public async createUser(req: Request, res: Response){
-        const registerData : RegisterI = {
+        const registerData : RegisterInterface = {
           email: req.body.email,
           password: req.body.password,
           user_name: req.body.user_name,
@@ -111,17 +108,18 @@ export default class AuthController {
         }
     }  
     }
-  
+    
+    
     public async logOut(req: Request, res: Response, next: NextFunction): Promise<void> {
       try {
         const userId = req.body;
         await this.authService.logout(userId);
     
-        res.cookie('accessToken', 'logout', {
+        res.cookie(ACCESS_TOKEN, LOGOUT, {
           httpOnly: true,
           expires: new Date(Date.now()),
         });
-        res.cookie('refreshToken', 'logout', {
+        res.cookie('refreshToken', LOGOUT, {
           httpOnly: true,
           expires: new Date(Date.now()),
         });
@@ -131,6 +129,7 @@ export default class AuthController {
         next(error);
       }
     }
+    
     
 }
 

@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt'
 import { v4 } from 'uuid';
 import Encrypt from '../Utils/bcrypt.encrypt';
-import { RegisterI, UserId } from '../type';
+import { RegisterInterface, UserId } from '../type';
 import IUser, { ICreateTokenUser, ILoginRequest, ILoginResponse } from '../Interfaces/user.type';
 import AuthRepository from '../Repositories/auth.repository';
 import {
@@ -21,7 +21,7 @@ export default class AuthService {
     private tokenRepository = new TokenRepository()
     private encrypt = new Encrypt()
 
-  public async register(payload: RegisterI): Promise<IUser> {
+  public async register(payload: RegisterInterface): Promise<IUser> {
     const existingUser = await this.authRepository.findByEmail(payload.email);
     if (existingUser && !existingUser.deleted) {
       throw new BadRequestError(`Email ${payload.email} already in use`);

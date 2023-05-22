@@ -17,4 +17,9 @@ export  interface GiftcardsData{
 
 
 
-export  type giftcardType = 'Walmart' | 'Itunes' | 'Google Play';
+export  type giftcardType = {
+    walmart : string;
+    itunes: string;
+    google_play: string;
+
+}

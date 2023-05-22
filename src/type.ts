@@ -3,7 +3,7 @@ import IUser from "./Interfaces/user.type";
 
 type PartialUser = Partial<Omit<IUser, 'id'>> ;
 type UserId = number & MaybeCompositeId;
-type  RegisterI = {
+type  RegisterInterface = {
     email:string, 
     password: string,
      user_name: string,
@@ -13,4 +13,4 @@ type  RegisterI = {
     // isVerified: boolean,
     // verified: Date;
     }
-export {PartialUser, UserId, RegisterI};
+export {PartialUser, UserId, RegisterInterface};

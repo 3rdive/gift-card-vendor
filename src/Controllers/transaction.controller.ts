@@ -9,7 +9,7 @@ export default class TransactionController {
 
   public async createTransaction(req: Request, res: Response): Promise<void> {
     try {
-      const { email } = req.body;
+      const email  = req.body;
       const transaction = await this.transactionService.create(email);
       logger.info(transaction)
       res.status(StatusCodes.CREATED).json({ message: 'Transaction code sent', transaction});
@@ -23,7 +23,7 @@ export default class TransactionController {
         const code = req.body.code;
         const email = req.body.email;
   
-        if (!code || !email) {
+        if (!code && !email) {
           throw new BadRequestError("Please provide a valid email and code");
         }
   
@@ -35,7 +35,7 @@ export default class TransactionController {
           res.status(400).send({ message: "Transaction code is invalid" });
         }
       } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "user not available"});
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "An error occurred. Please try again later."});
       }
     }
 }
