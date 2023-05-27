@@ -16,7 +16,7 @@ export default class giftcardService {
     private authRepository= new AuthRepository();
     private purchaseRepository = new PurchaseRepository
 
-    public async create(type:giftcardType, trasaction_ref:number,image:string,transaction_feedback: string, email: string): Promise<GiftcardsInterface>{
+    public async create(type: keyof giftcardType, trasaction_ref:number,image:string,transaction_feedback: string, email: string): Promise<GiftcardsInterface>{
       if(!email){
         throw new BadRequestError('Please provide a valid email')
     }
@@ -30,6 +30,7 @@ export default class giftcardService {
        if (expirationDate.getMonth() === 0) { 
         expirationDate.setFullYear(expirationDate.getFullYear() + 1);
       }
+      
        const code = await generateTransactionCode(type);
        const transactionRef = await this.transactionRepository.findByUserId(trasaction_ref)
        if (!transactionRef) {
@@ -57,8 +58,8 @@ export default class giftcardService {
        return createdGiftcard;
 }
 
-public async redeemCode(code: string, email: string, type:giftcardType ): Promise<boolean>{
-  if (!code || !email) {
+public async redeemCode(code: string, email: string, type: keyof giftcardType ): Promise<boolean>{
+  if (!code && !email) {
       throw new BadRequestError("Please provide a valid email and code");
     }
 
@@ -94,7 +95,7 @@ public async redeemCode(code: string, email: string, type:giftcardType ): Promis
       if (expirationDate.getMonth() === 0) { 
         expirationDate.setFullYear(expirationDate.getFullYear() + 1);
       }
-      const newCode = await generateTransactionCode(giftCard.type);
+      const newCode = await generateTransactionCode(type);
       const newGiftcard: GiftcardsInterface = {
         Transaction_code: giftCard.Transaction_code,
         type: giftCard.type,

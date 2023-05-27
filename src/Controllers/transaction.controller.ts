@@ -20,8 +20,7 @@ export default class TransactionController {
   }
   public async verifyTransactionCOntroller(req: Request, res: Response){
     try {
-        const code = req.body.code;
-        const email = req.body.email;
+        const{email, code} = req.body;
   
         if (!code && !email) {
           throw new BadRequestError("Please provide a valid email and code");

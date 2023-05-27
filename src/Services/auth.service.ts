@@ -39,7 +39,7 @@ export default class AuthService {
       country: payload.country,
       verificationToken: verificationToken,
     });
-    const origin = 'http://localhost:1222';
+    const origin = 'http://localhost:3000';
     await sendVerificationMail({
       name : user.user_name, 
       email : user.email, 

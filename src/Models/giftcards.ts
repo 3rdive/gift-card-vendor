@@ -1,5 +1,4 @@
 import {Model} from 'objection';
-import User from './user.model';
 import TransactionRef from './transactionRef';
 
 

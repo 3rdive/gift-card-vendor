@@ -7,8 +7,11 @@ import { RegisterInterface } from "../type";
 import { BadRequestError, UnAuthenticatedError } from "../Utils/ErrorUtils";
 import log from "../Utils/logger";
 import { attachCookiesToResponse } from "../Utils/Middleware/jwt.file";
+
+
 const ACCESS_TOKEN = 'accessToken';
 const LOGOUT = 'logout';
+const REFRESH_TOKEN = 'refreshToken';
 
 
 export default class AuthController {
@@ -42,8 +45,8 @@ export default class AuthController {
         res.status(StatusCodes.CREATED).json({email, message: 'email verified'})
       } catch (error) {
         logger.error(error)
-        if(error instanceof UnAuthenticatedError){
-          return res.status(StatusCodes.UNAUTHORIZED).json({message: error.message, error})
+        if(error){
+          return res.status(StatusCodes.UNAUTHORIZED).json({message:"Email verification Failed. Please check your inbox for a verification email and follow the instructions to verify your account.", error})
         }
       }
     }
@@ -64,11 +67,11 @@ export default class AuthController {
         res.status(StatusCodes.OK).json({ message: 'Login Sucessful!' });
       } catch (error : any) {
         log.error(error)
-        if (error instanceof BadRequestError){
-          return res.status(StatusCodes.BAD_REQUEST).json({message: error.message, error})
+        if (error ){
+          return res.status(StatusCodes.BAD_REQUEST).json({message: "Invalid credentials", error})
         }
-        else if(error instanceof UnAuthenticatedError) {
-          return res.status(StatusCodes.UNAUTHORIZED).json({message: error.message, error})
+        else if(error ) {
+          return res.status(StatusCodes.UNAUTHORIZED).json({message: "Email yet to be verified", error})
         }
     }  
     }
@@ -82,14 +85,10 @@ export default class AuthController {
       }
       catch (error : any) {
         log.error(error)
-        if (error instanceof BadRequestError){
-          return res.status(StatusCodes.BAD_REQUEST).json({message: error.message, error})
-        }
-        else if(error instanceof UnAuthenticatedError) {
-          return res.status(StatusCodes.UNAUTHORIZED).json({message: error.message, error})
+          return res.status(StatusCodes.UNAUTHORIZED).json({message: "Email not found. Please make sure you entered the correct email address.", error})
         }
     }  
-    }
+    
 
     public async resetPasswordController (req: Request, res: Response,){
       const {token, email, password} = req.body;
@@ -100,11 +99,11 @@ export default class AuthController {
       } 
       catch (error : any) {
         log.error(error)
-        if (error instanceof BadRequestError){
-          return res.status(StatusCodes.BAD_REQUEST).json({message: error.message, error})
+        if (error ){
+          return res.status(StatusCodes.BAD_REQUEST).json({message: "Please provide all values", error})
         }
-        else if(error instanceof UnAuthenticatedError) {
-          return res.status(StatusCodes.UNAUTHORIZED).json({message: error.message, error})
+        else if(error ) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message: "An error occurred while resetting the password. Please try again later.", error})
         }
     }  
     }
@@ -119,11 +118,11 @@ export default class AuthController {
           httpOnly: true,
           expires: new Date(Date.now()),
         });
-        res.cookie('refreshToken', LOGOUT, {
+        res.cookie(REFRESH_TOKEN, LOGOUT, {
           httpOnly: true,
           expires: new Date(Date.now()),
         });
-        res.status(StatusCodes.OK).json({ msg: 'user logged out!' });
+        res.status(StatusCodes.OK).json({ message: 'User logged out!' });
       } catch (error) {
         log.error(error);
         next(error);

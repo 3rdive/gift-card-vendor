@@ -79,3 +79,35 @@ export const restPasswordValidationRules = () => {
             .withMessage('please enter a valid email'),
     ];
 };
+export const codeValidationRules = () => {
+    return [
+        body('code')
+            .trim()
+            .notEmpty()
+            .withMessage('Please provide a valid email and code')
+            .isLength({ min: 7, max: 20 })
+            .withMessage('Code must be between 6 and 16 characters'),
+    ];
+};
+
+export const verifyGIftcardValidation = () => {
+    return [
+        check('password')
+            .trim()
+            .notEmpty()
+            .withMessage('Password can not be empty')
+            .isLength({ min: 6, max: 16 })
+            .withMessage('Password must be between 6 and 16 characters'),
+        check('email')
+            .trim()
+            .isEmail()
+            .normalizeEmail()
+            .matches(/^\w+([.-]?\w+)*@gmail.com$/)
+            .withMessage('please enter a valid email'),
+        check('type')
+            .trim()
+            .isAlphanumeric()
+            .isLength({ min: 6, max: 16 })
+            .withMessage('please enter a valid giftcard type'),
+    ];
+};

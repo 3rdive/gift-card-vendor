@@ -1,13 +1,14 @@
+import { giftcardType } from "../../Interfaces/gift.card";
 import Giftcards from "../../Models/giftcards";
 import { BadRequestError } from "../ErrorUtils";
 
-const generateTransactionCode = async (giftcardType: string): Promise<string> => {
+const generateTransactionCode = async (type: keyof giftcardType): Promise<string> => {
     let length: number;
-    if(giftcardType === 'Walmart'){
+    if(type === 'walmart'){
       length = 10;
-    }else if(giftcardType === 'Itunes'){
+    }else if(type === 'itunes'){
       length = 8;
-    }else if(giftcardType === 'Google Play'){
+    }else if(type === 'google_play'){
       length = 11
     }else{
       throw new BadRequestError('Invalid gift card type')
