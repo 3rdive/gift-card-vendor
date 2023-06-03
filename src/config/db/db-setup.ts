@@ -1,6 +1,8 @@
 import knex from "knex";
 import knexfile from "../knexfile";
 import { Model } from "objection";
+import * as dotenv from 'dotenv';
+dotenv.config({ path: './../../.env' });
 
 const {NODE_ENV} = process.env;
 
