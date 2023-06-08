@@ -6,10 +6,6 @@ import { knexSnakeCaseMappers } from 'objection';
 // Update with your config settings.
 dotenv.config({ path: '.env'});
 
-// host: '127.0.0.1',
-// user: `postgres`,
-// password: 'postoat4',
-// database: `gift_card`,
 
 const databaseConfig: { [key: string]: import("knex").Knex.Config } = {
   development: {
